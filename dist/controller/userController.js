@@ -134,7 +134,7 @@ const userGet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (err) {
         res.status(500).json({
             message: 'Internal Server Error',
-            Error: "/users/get-all-users"
+            Error: "/users/get-all-users/:_id"
         });
     }
 });
@@ -158,7 +158,7 @@ const userUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const updatedUser = yield UserModel_1.default.findOneAndUpdate({ _id: id }, {
             firstName, lastName, address, gender, phone,
             coverImage: req.file.path
-        }, { new: true });
+        });
         if (updatedUser) {
             const user = yield UserModel_1.default.findOne({ _id: id });
             res.status(200).json({

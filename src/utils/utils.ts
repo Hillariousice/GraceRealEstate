@@ -33,6 +33,32 @@ export const adminSchema =Joi.object().keys({
   phone:Joi.string().required(),
   password:Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
 })
+export const agentSchema =Joi.object().keys({
+  name:Joi.string().required(),
+  companyName:Joi.string().required(),
+  email:Joi.string().required(),
+  phone:Joi.string().required(),
+  password:Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
+})
+export const updateAgentSchema =Joi.object().keys({
+  name:Joi.string(),
+  companyName:Joi.string(),
+  email:Joi.string(),
+  phone:Joi.string(),
+  address:Joi.string(),
+  pincode:Joi.string(),
+  coverImage:Joi.string()
+})
+
+export const updatePropertySchema =Joi.object().keys({
+  name:Joi.string(),
+  description:Joi.string(),
+  address:Joi.string(),
+  condition:Joi.string(),
+  propertySize:Joi.string(),
+  price:Joi.string(),
+  image:Joi.string()
+})
 
 export const option = {
     abortEarly: false,

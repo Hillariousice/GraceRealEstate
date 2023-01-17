@@ -127,7 +127,7 @@ try{
 }catch(err){
     res.status(500).json({
         message:'Internal Server Error',
-        Error: "/users/get-all-users"
+        Error: "/users/get-all-users/:_id"
     })
 }
 }
@@ -151,7 +151,7 @@ export const userUpdate = async(req:JwtPayload,res:Response)=>{
         const updatedUser = await User.findOneAndUpdate({_id:id},{
             firstName,lastName,address,gender,phone,
             coverImage:req.file.path
-        },{new:true})
+        })
         if(updatedUser){
             const user = await User.findOne({_id:id})
             res.status(200).json({
