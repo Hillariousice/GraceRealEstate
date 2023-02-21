@@ -5,7 +5,7 @@ import { upload } from '../utils/multer'
 const router = express.Router()
 
 
-router.post('/signin',Register)
+router.post('/signup',Register)
 router.post('/login',Login)
 
 router.get('/get-all-users', auth, getAllUsers)

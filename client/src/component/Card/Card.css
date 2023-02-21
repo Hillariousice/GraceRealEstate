@@ -1,0 +1,10 @@
+.stlyeCard{   
+    display: flex;
+    flex-direction: column; 
+    background-color: pink;
+    box-sizing: border-box;
+    margin:20px auto;
+    border: 1px solid black;
+    
+    
+    }
