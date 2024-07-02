@@ -18,9 +18,9 @@ export const Register = async(req:Request,res:Response)=>{
         }
 
         const salt = await GenerateSalt()
-        // console.log(salt)
+       console.log(salt)
         const hashedPassword = await GeneratePassword(password,salt)
-//  console.log(hashedPassword)
+ console.log(hashedPassword)
         const user = await User.findOne({email})
         if(!user){
             await User.create({
@@ -54,9 +54,10 @@ export const Register = async(req:Request,res:Response)=>{
        })
 
      }catch(err){
+        console.log(err)
         res.status(500).json({
             message:'Internal Server Error',
-            Error: "/users/signin"
+            Error: "/users/signup"
         })
      }
 }
