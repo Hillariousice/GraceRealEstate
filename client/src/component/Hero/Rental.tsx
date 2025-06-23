@@ -1,16 +1,18 @@
 import { BsStarFill } from "react-icons/bs";
+import { Link } from "react-router-dom"; // Import Link
 
 // It's good practice to define types for props
 interface RentalProps {
+  _id: string; // Added _id prop
   name: string;
   image: string;
   address: string;
   price: number | string; // Allow string if price can be formatted like "$1,000"
 }
 
-const Rental = ({ name, image, address, price }: RentalProps) => {
+const Rental = ({ _id, name, image, address, price }: RentalProps) => { // Added _id to destructuring
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-white"> {/* Added bg-white for explicit background, shadow, rounded */}
+    <Link to={`/property/${_id}`} className="flex flex-col overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-white no-underline hover:no-underline focus:no-underline active:no-underline text-current"> {/* Added Link and styling to remove default link appearance */}
       <div className="relative">
         {/* grad overlay seems to be part of the design, kept it */}
         <div className="grad absolute w-full h-full rounded-t-xl"></div> {/* Ensure grad only covers top rounded part if image is also rounded */}
@@ -43,7 +45,7 @@ const Rental = ({ name, image, address, price }: RentalProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link> // Corrected closing tag
   );
 };
 
