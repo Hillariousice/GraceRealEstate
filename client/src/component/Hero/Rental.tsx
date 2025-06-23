@@ -1,40 +1,50 @@
-import { BsStarFill } from "react-icons/bs"
+import { BsStarFill } from "react-icons/bs";
 
-const Rental = ({name,image,address,price}:any) => {
-  return (
-    <div className="">
-        <div className="relative ">
-        <div className="grad absolute w-full h-full rounded-[1.3rem]"></div>
-        <div className='flex'>
-       
-   <img src={image} alt="" className='object-cover rounded-[1.3rem] sm:h-[14.5rem] md:h-[16.5rem] w-full h-full'/>
-       <div className='absolute text-white font-bold
-       bottom-6 left-6 text-[22px] flex items-center gap-2'>
-        <p className="text-[20px] text-white">{name}</p>
-    
-        <span>&#x2022;</span>
-      <p className="text-[16px] text-slate-200 ">${price}</p>
-       </div>
-        </div>
-    </div>
-    <div className="pt-3 flex justify-between items-start">
-    <div className="">
-    <p className="max-w-[17rem] font-semibold text-[17px]"
-       >This place is usually fully booked</p>
-     <p className="text-[18px] text-black "> {address}</p>
-    <p className="max-w-[17rem]  text-[17px] -mt-1 text-gray-400">
-     Feb 28 - Mar 16 </p>
-     <p className="max-w-[17rem] text-[18px]font-semibold text-black">${price}</p>
-    </div>
-    <div className="flex items-center space-x-1">
-        <BsStarFill/>
-        <p className="text-[15px]">5.0</p>
-    </div>
-      
-    </div>
-    </div>
-    
-  )
+// It's good practice to define types for props
+interface RentalProps {
+  name: string;
+  image: string;
+  address: string;
+  price: number | string; // Allow string if price can be formatted like "$1,000"
 }
 
-export default Rental
+const Rental = ({ name, image, address, price }: RentalProps) => {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-white"> {/* Added bg-white for explicit background, shadow, rounded */}
+      <div className="relative">
+        {/* grad overlay seems to be part of the design, kept it */}
+        <div className="grad absolute w-full h-full rounded-t-xl"></div> {/* Ensure grad only covers top rounded part if image is also rounded */}
+        <img
+          src={image}
+          alt={`Rental image for ${name}`} // Improved alt text
+          className="object-cover rounded-t-xl w-full h-48 sm:h-52 md:h-56" // Adjusted heights, ensure top rounding matches container
+        />
+        <div className="absolute text-white font-bold bottom-4 left-4 right-4 flex items-center gap-2"> {/* Adjusted padding, ensure it doesn't overflow */}
+          <p className="text-lg sm:text-xl text-white truncate">{name}</p> {/* Added truncate, responsive text */}
+          <span className="text-lg sm:text-xl">&#x2022;</span>
+          <p className="text-base sm:text-lg text-slate-200">${price}</p> {/* Responsive text */}
+        </div>
+      </div>
+      <div className="p-3 sm:p-4 flex flex-col flex-grow"> {/* Added flex-grow to make text content fill space */}
+        <div className="flex-grow">
+          <p className="font-semibold text-sm sm:text-base text-gray-800"> {/* Responsive text */}
+            This place is usually fully booked
+          </p>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate"> {address}</p> {/* Responsive text, truncate */}
+          <p className="text-xs sm:text-sm text-gray-500 mt-0.5"> {/* Responsive text */}
+            Feb 28 - Mar 16
+          </p>
+        </div>
+        <div className="mt-2 flex justify-between items-center">
+          <p className="text-sm sm:text-base font-semibold text-black">${price}</p> {/* Responsive text */}
+          <div className="flex items-center space-x-1">
+            <BsStarFill className="text-yellow-500" /> {/* Added color to star */}
+            <p className="text-xs sm:text-sm text-gray-700">5.0</p> {/* Responsive text */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Rental;

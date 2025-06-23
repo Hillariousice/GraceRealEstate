@@ -4,6 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "start": "nodemon dist/app.js",
     "run": "node dist/app.js",
     "compile": "tsc -w"
