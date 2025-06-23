@@ -4,6 +4,7 @@ import './App.css'
 import Home from "./pages/Home/Home";
 import Signup from "./pages/Signup/Signup";
 import Login from "./pages/Login/Login";
+import PropertyDetailsPage from "./pages/PropertyDetails/PropertyDetailsPage"; // Import the new page
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/signin" element={<Login/>}/>
+        <Route path="/property/:propertyId" element={<PropertyDetailsPage />} /> {/* Added route */}
       </Routes>
     </Router>
    </React.Fragment>
