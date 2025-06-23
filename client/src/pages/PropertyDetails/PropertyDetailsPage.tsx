@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '../../component/NavBar/NavBar';
 import Footer from '../../component/Footer/Footer';
-import axios from '../../utils/axios'; // Import configured axios instance
+import { apiGet } from '../../utils/axios'; // Import apiGet named export
 
 // Define a type for the property data, adjust as per actual data structure
 interface Property {
@@ -41,17 +41,20 @@ const PropertyDetailsPage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        // Assuming server API is prefixed with /api and user routes are under /users
-        // The actual property data is nested under an 'agent' key based on propertyGet controller
-        const response = await axios.get(`/users/property/${propertyId}`);
+        // Path for apiGet should be relative to the baseUrl defined in utils/axios.ts
+        // If baseUrl is "http://localhost:8080", and server routes are like /api/users/property/:id
+        // then the path here should be "api/users/property/${propertyId}"
+        // However, the existing server routes are /users/property/:id, not /api/users/property/:id
+        // The baseUrl in utils/axios.ts is "http://localhost:8080"
+        // So, if server.ts mounts UserRoutes at /users, path should be `users/property/${propertyId}`
+        const response = await apiGet({ path: `users/property/${propertyId}` });
+
         if (response.data && response.data.agent) { // Controller returns { message, agent (this is the property) }
           setProperty(response.data.agent);
-        } else if (response.data && response.data.message === "Property not found"){ // Handle explicit not found from server
+        } else if (response.data && response.data.message === "Property not found") {
           setError("Property not found.");
           setProperty(null);
-        }
-        else {
-          // Handle cases where data.agent might be missing but no explicit error message
+        } else {
           console.warn("Property data not found in expected format:", response.data);
           setError("Property details could not be loaded.");
           setProperty(null);
@@ -60,10 +63,9 @@ const PropertyDetailsPage: React.FC = () => {
         console.error("Error fetching property details:", err);
         if (err.response && err.response.status === 404) {
           setError("Property not found.");
-        } else if (err.response && err.response.data && err.response.data.Error) {
-          setError(err.response.data.Error);
-        }
-         else {
+        } else if (err.response && err.response.data && (err.response.data.Error || err.response.data.message)) {
+          setError(err.response.data.Error || err.response.data.message);
+        } else {
           setError("Failed to fetch property details. Please try again later.");
         }
         setProperty(null);

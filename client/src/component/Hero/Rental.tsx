@@ -45,7 +45,7 @@ const Rental = ({ _id, name, image, address, price }: RentalProps) => { // Added
           </div>
         </div>
       </div>
-    </div>
+    </Link> // Corrected closing tag
   );
 };
 
