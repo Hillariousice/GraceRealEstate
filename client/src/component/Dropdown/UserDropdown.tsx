@@ -35,12 +35,25 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, toggle }) => {
           <Link to="/profile" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
             My Profile
           </Link>
-          {/* Add other authenticated user links here, e.g., Settings, My Properties (for agents) */}
-          {user?.role === 'admin' || user?.role === 'superadmin' ? (
-            <Link to="/admin/users" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-              Admin: Users
-            </Link>
-          ) : null}
+
+          {/* Admin/Superadmin specific links */}
+          {(user?.role === 'admin' || user?.role === 'superadmin') && (
+            <>
+              <Link to="/admin/users" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                Manage Users
+              </Link>
+              <Link to="/admin/agents" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                Manage Agents
+              </Link>
+            </>
+          )}
+          {/* Superadmin specific link */}
+          {user?.role === 'superadmin' && (
+             <Link to="/admin/manage-admins/new" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+               Create New Admin
+             </Link>
+          )}
+
            {user?.role === 'agent' ? ( // Example agent link
             <Link to="/agent/properties" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
               My Properties

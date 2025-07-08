@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Logo from '../../assets/dove.png';
 import { BiWorld, BiUser } from 'react-icons/bi';
 import { FiMenu, FiSearch, FiX } from 'react-icons/fi';
-import UserDropdown from '../Dropdown/UserDropdown'; // Renamed import
-import { useAuth } from '../../context/authContext'; // Import useAuth
-import { Link } from 'react-router-dom'; // Import Link for logo
+import UserDropdown from '../Dropdown/UserDropdown'; // Path is correct now
+import { useAuth } from '../../context/authContext';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -107,9 +107,24 @@ const NavBar = () => {
             {isAuthenticated ? (
               <>
                 <Link to="/profile" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">My Profile</Link>
-                {/* Add role-specific links for mobile too */}
-                { (useAuth().user?.role === 'admin' || useAuth().user?.role === 'superadmin') &&
-                  <Link to="/admin/users" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Admin: Users</Link> }
+
+                {/* Admin/Superadmin specific links for mobile */}
+                {(useAuth().user?.role === 'admin' || useAuth().user?.role === 'superadmin') && (
+                  <>
+                    <Link to="/admin/users" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Manage Users</Link>
+                    <Link to="/admin/agents" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Manage Agents</Link>
+                  </>
+                )}
+                {/* Superadmin specific link for mobile */}
+                {useAuth().user?.role === 'superadmin' && (
+                  <Link to="/admin/manage-admins/new" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Create New Admin</Link>
+                )}
+
+                {/* Example Agent Link for mobile - ensure route exists if uncommented */}
+                {/* {useAuth().user?.role === 'agent' && (
+                  <Link to="/agent/properties" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">My Properties</Link>
+                )} */}
+
                 <button onClick={() => { useAuth().logoutUser(); toggleMobileMenu(); }} className="w-full text-left py-2 px-2 text-red-600 hover:bg-gray-100 rounded">Logout</button>
               </>
             ) : (

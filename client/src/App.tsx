@@ -8,7 +8,10 @@ import PropertyDetailsPage from "./pages/PropertyDetails/PropertyDetailsPage";
 import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import EditProfilePage from "./pages/Profile/EditProfilePage";
-import AdminListUsersPage from "./pages/Admin/Users/AdminListUsersPage"; // Import AdminListUsersPage
+import AdminListUsersPage from "./pages/Admin/Users/AdminListUsersPage";
+import AdminListAgentsPage from "./pages/Admin/Agents/AdminListAgentsPage";
+import AdminCreateAgentPage from "./pages/Admin/Agents/AdminCreateAgentPage";
+import AdminCreateAdminPage from "./pages/Admin/Admins/AdminCreateAdminPage"; // Import AdminCreateAdminPage
 
 function App() {
 
@@ -31,7 +34,10 @@ function App() {
         {/* Admin Protected Routes */}
         <Route element={<ProtectedRoute allowedRoles={['admin', 'superadmin']} />}>
           <Route path="/admin/users" element={<AdminListUsersPage />} />
-          {/* Add other admin routes here: /admin/agents, etc. */}
+          <Route path="/admin/agents" element={<AdminListAgentsPage />} />
+          <Route path="/admin/agents/new" element={<AdminCreateAgentPage />} />
+          <Route path="/admin/manage-admins/new" element={<AdminCreateAdminPage />} />
+          {/* Add other admin routes here, e.g., list admins, edit admin */}
         </Route>
 
         {/* TODO: Add a 404 Not Found route */}
