@@ -1,11 +1,7 @@
 
 {
   "version": 2,
-  "projects": {
-    "client": {
-      "root": "client"
-    }
-  },
+  "installCommand": "cd client && yarn install",
   "builds": [
     {
       "src": "client/package.json",
