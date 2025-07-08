@@ -120,10 +120,14 @@ const NavBar = () => {
                   <Link to="/admin/manage-admins/new" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Create New Admin</Link>
                 )}
 
-                {/* Example Agent Link for mobile - ensure route exists if uncommented */}
-                {/* {useAuth().user?.role === 'agent' && (
-                  <Link to="/agent/properties" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">My Properties</Link>
-                )} */}
+
+                {/* Agent specific links for mobile */}
+                {useAuth().user?.role === 'agent' && (
+                  <>
+                    <Link to="/agent/my-properties" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">My Properties</Link>
+                    <Link to="/agent/profile/edit" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Edit Agent Profile</Link>
+                  </>
+                )}
 
                 <button onClick={() => { useAuth().logoutUser(); toggleMobileMenu(); }} className="w-full text-left py-2 px-2 text-red-600 hover:bg-gray-100 rounded">Logout</button>
               </>
