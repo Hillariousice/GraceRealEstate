@@ -1,7 +1,7 @@
 import express from 'express'
 import { getAllUsers, Login, Register, userDelete, userGet, userUpdate } from '../controller/userController'
-import { propertyGet } from '../controller/agentController' // Import propertyGet
-import { auth } from '../middleware/auth'
+import { propertyGet } from '../controller/agentController'
+import { auth, adminAuth } from '../middleware/auth' // Import adminAuth
 import { upload } from '../utils/multer'
 const router = express.Router()
 
@@ -10,14 +10,16 @@ router.post('/signup',Register)
 router.post('/login',Login)
 
 // Property route (public)
-router.get('/property/:propertyId', propertyGet) // New public route for fetching a single property
+router.get('/property/:propertyId', propertyGet)
 
-// User specific routes (mostly authenticated)
-router.get('/get-all-users', auth, getAllUsers)
-router.get('/get-all-user/:_id',auth, userGet) // Note: path has /:id, maybe should be /profile or similar if for self
+// User specific routes
+// Get own profile (or specific user if also admin - handled by controller or separate route)
+router.get('/get-all-user/:_id', auth, userGet)
+router.patch('/updateUser/:_id', auth, upload.single('coverImage'), userUpdate)
 
-router.patch('/updateUser/:_id',auth,upload.single('coverImage'),userUpdate)
-router.delete('/deleteUser/:_id',auth,userDelete)
+// Admin specific user routes
+router.get('/get-all-users', adminAuth, getAllUsers) // Changed to adminAuth
+router.delete('/deleteUser/:_id', adminAuth, userDelete) // Changed to adminAuth
 
 
 export default router

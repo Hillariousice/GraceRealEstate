@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8080"; // Corrected: No /api prefix
 
 interface ApiParams {
 path?: string;
