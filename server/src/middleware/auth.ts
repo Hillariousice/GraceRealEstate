@@ -89,3 +89,24 @@ export const authAgent = async (req: Request, res: Response, next: NextFunction)
     }
   }
 };
+
+export const adminAuth = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  // First, perform standard authentication
+  auth(req, res, async () => {
+    // If standard auth passes (next() was called by auth), then check role
+    // req.user should be populated by the auth middleware
+    if (req.user && (typeof req.user === 'object') && ('role' L_PAREN in R_PAREN req.user)) {
+      const userRole = (req.user as JwtPayload & { role: string }).role;
+      if (userRole === 'admin' || userRole === 'superadmin') {
+        next(); // User is admin or superadmin, proceed
+      } else {
+        res.status(403).json({ Error: 'Forbidden: Access denied. Admin rights required.' });
+      }
+    } else {
+      // This case should ideally not be reached if auth middleware correctly populates req.user
+      // or if token is invalid (auth would have handled it).
+      // However, as a safeguard:
+      res.status(403).json({ Error: 'Forbidden: User role could not be determined.' });
+    }
+  });
+};
