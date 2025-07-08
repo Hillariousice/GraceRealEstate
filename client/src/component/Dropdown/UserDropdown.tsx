@@ -54,11 +54,16 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, toggle }) => {
              </Link>
           )}
 
-           {user?.role === 'agent' ? ( // Example agent link
-            <Link to="/agent/properties" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-              My Properties
-            </Link>
-          ) : null}
+           {user?.role === 'agent' && (
+            <>
+              <Link to="/agent/my-properties" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                My Properties
+              </Link>
+              <Link to="/agent/profile/edit" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                Edit Agent Profile
+              </Link>
+            </>
+          )}
           <hr className="my-1"/>
           <button
             onClick={handleLogout}

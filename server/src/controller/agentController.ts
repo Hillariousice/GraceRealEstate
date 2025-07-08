@@ -140,10 +140,17 @@ export const CreateProperty = async (req: Request, res: Response): Promise<void>
 
 export const getAllProperty = async (req: Request, res: Response): Promise<void> => {
     try {
-        const property = await Property.find({});
+        // Ensure req.user is populated by authAgent and contains _id
+        const agentId = (req.user as JwtPayload)?._id;
+        if (!agentId) {
+            res.status(403).json({ Error: "Authentication error: Agent ID not found." });
+            return;
+        }
+
+        const properties = await Property.find({ agentId: agentId }); // Filter by agentId
         res.status(200).json({
-            message: "Here Is All Property",
-            property
+            message: "Here are your properties", // Adjusted message
+            properties // Renamed for clarity, or keep 'property' if client expects that
         });
     } catch (err) {
         res.status(500).json({

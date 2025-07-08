@@ -11,7 +11,11 @@ import EditProfilePage from "./pages/Profile/EditProfilePage";
 import AdminListUsersPage from "./pages/Admin/Users/AdminListUsersPage";
 import AdminListAgentsPage from "./pages/Admin/Agents/AdminListAgentsPage";
 import AdminCreateAgentPage from "./pages/Admin/Agents/AdminCreateAgentPage";
-import AdminCreateAdminPage from "./pages/Admin/Admins/AdminCreateAdminPage"; // Import AdminCreateAdminPage
+import AdminCreateAdminPage from "./pages/Admin/Admins/AdminCreateAdminPage";
+import MyPropertiesPage from "./pages/Agent/MyPropertiesPage";
+import CreatePropertyPage from "./pages/Agent/CreatePropertyPage";
+import EditPropertyPage from "./pages/Agent/EditPropertyPage";
+import EditAgentProfilePage from "./pages/Agent/EditAgentProfilePage"; // Import EditAgentProfilePage
 
 function App() {
 
@@ -37,7 +41,14 @@ function App() {
           <Route path="/admin/agents" element={<AdminListAgentsPage />} />
           <Route path="/admin/agents/new" element={<AdminCreateAgentPage />} />
           <Route path="/admin/manage-admins/new" element={<AdminCreateAdminPage />} />
-          {/* Add other admin routes here, e.g., list admins, edit admin */}
+        </Route>
+
+        {/* Agent Protected Routes */}
+        <Route element={<ProtectedRoute allowedRoles={['agent']} />}>
+          <Route path="/agent/my-properties" element={<MyPropertiesPage />} />
+          <Route path="/agent/properties/new" element={<CreatePropertyPage />} />
+          <Route path="/agent/properties/edit/:propertyId" element={<EditPropertyPage />} />
+          <Route path="/agent/profile/edit" element={<EditAgentProfilePage />} />
         </Route>
 
         {/* TODO: Add a 404 Not Found route */}
