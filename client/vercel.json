@@ -1,10 +1,9 @@
 
 {
   "version": 2,
-  "installCommand": "cd client && yarn install",
   "builds": [
     {
-      "src": "client/package.json",
+      "src": "package.json",       
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
     }
@@ -13,4 +12,3 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
-
