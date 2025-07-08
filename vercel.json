@@ -11,6 +11,24 @@
   ],
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/vite.svg",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "/vite.svg"
+    },
+     {
+      "src": "/manifest.webmanifest",
+      "headers": { "cache-control": "s-maxage=0,must-revalidate" },
+      "dest": "/manifest.webmanifest"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
