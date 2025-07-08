@@ -152,7 +152,7 @@ const EditAgentProfilePage: React.FC = () => {
             </div>
             <div>
               <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700">Profile Picture (Cover Image)</label>
-              {currentCoverImageUrl && !coverImageFile && <img src={currentCoverImageUrl.startsWith('blob:') ? currentCoverImageUrl : `${process.env.REACT_APP_SERVER_URL_WITHOUT_API || 'http://localhost:8080'}/${currentCoverImageUrl.replace(/\\/g, '/')}`} alt="Current profile" className="mt-2 mb-2 w-32 h-32 object-cover rounded-full"/>}
+              {currentCoverImageUrl && !coverImageFile && <img src={currentCoverImageUrl.startsWith('blob:') ? currentCoverImageUrl : `${import.meta.env.VITE_SERVER_URL_WITHOUT_API || 'http://localhost:8080'}/${currentCoverImageUrl.replace(/\\/g, '/')}`} alt="Current profile" className="mt-2 mb-2 w-32 h-32 object-cover rounded-full"/>}
               {coverImageFile && <img src={URL.createObjectURL(coverImageFile)} alt="New preview" className="mt-2 mb-2 w-32 h-32 object-cover rounded-full"/>}
               <input type="file" name="coverImage" id="coverImage" onChange={handleFileChange} accept="image/*" className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
             </div>
@@ -167,7 +167,7 @@ const EditAgentProfilePage: React.FC = () => {
       </main>
       <Footer />
       {/* Reusing styles from EditPropertyPage for consistency, or define globally */}
-      <style jsx global>{`
+      <style>{`
         .input-class { display: block; width: 100%; padding-left: 0.75rem; padding-right: 0.75rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border-width: 1px; border-color: #D1D5DB; border-radius: 0.375rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
         .input-class:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); }
         .btn-primary { padding-left: 1.5rem; padding-right: 1.5rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border-width: 1px; border-color: transparent; border-radius: 0.375rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; color: white; }

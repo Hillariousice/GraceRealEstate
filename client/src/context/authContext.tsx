@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 // import { apiPost, apiGet } from '../utils/axios'; // Could use these if baseUrl is aligned
 
 // Server routes are NOT prefixed with /api. Base URL should just be the server origin.
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+// Vite uses import.meta.env.VITE_... for environment variables
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-interface User {
+// Export User interface
+export interface User {
   _id: string;
   email: string;
   role: string;
