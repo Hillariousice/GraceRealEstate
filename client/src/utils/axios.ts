@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8080"; // Corrected: No /api prefix
+// Vite uses import.meta.env.VITE_... for environment variables
+const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 interface ApiParams {
 path?: string;

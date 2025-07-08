@@ -184,7 +184,7 @@ const EditPropertyPage: React.FC = () => {
             </div>
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-gray-700">Property Image</label>
-              {currentImageUrl && !imageFile && <img src={currentImageUrl.startsWith('blob:') ? currentImageUrl : `${process.env.REACT_APP_SERVER_URL_WITHOUT_API || 'http://localhost:8080'}/${currentImageUrl.replace(/\\/g, '/')}`} alt="Current property" className="mt-2 mb-2 w-full max-w-xs h-auto rounded"/>}
+              {currentImageUrl && !imageFile && <img src={currentImageUrl.startsWith('blob:') ? currentImageUrl : `${import.meta.env.VITE_SERVER_URL_WITHOUT_API || 'http://localhost:8080'}/${currentImageUrl.replace(/\\/g, '/')}`} alt="Current property" className="mt-2 mb-2 w-full max-w-xs h-auto rounded"/>}
               {imageFile && <img src={URL.createObjectURL(imageFile)} alt="New preview" className="mt-2 mb-2 w-full max-w-xs h-auto rounded"/>}
               <input type="file" name="image" id="image" onChange={handleFileChange} accept="image/*" className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
               <p className="text-xs text-gray-500 mt-1">Upload a new image to replace the current one.</p>
@@ -200,7 +200,7 @@ const EditPropertyPage: React.FC = () => {
       </main>
       <Footer />
       {/* Helper CSS for input-class, btn-primary, btn-secondary if not globally defined via Tailwind components */}
-      <style jsx global>{`
+      <style>{`
         .input-class {
           display: block;
           width: 100%;
