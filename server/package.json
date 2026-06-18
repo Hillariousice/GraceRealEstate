@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
+   "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "start": "nodemon dist/app.js",
