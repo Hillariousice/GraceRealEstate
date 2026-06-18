@@ -12,7 +12,10 @@ import { JwtPayload } from 'jsonwebtoken';
 
 export const getProperties = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { category, minPrice, maxPrice, address } = req.query;
+        const category = req.query.category as string | undefined;
+        const minPrice = req.query.minPrice as string | undefined;
+        const maxPrice = req.query.maxPrice as string | undefined;
+        const address = req.query.address as string | undefined;
         let query: any = {};
 
         if (category) {
@@ -45,7 +48,7 @@ export const getProperties = async (req: Request, res: Response): Promise<void> 
 export const toggleFavorite = async (req: Request, res: Response): Promise<void> => {
     try {
         const userId = (req.user as JwtPayload)?._id;
-        const { propertyId } = req.params;
+        const propertyId = req.params.propertyId as string;
 
         const user = await User.findById(userId);
         if (!user) {
@@ -208,7 +211,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
 
 export const userGet = async (req: Request, res: Response): Promise<void> => {
     try {
-        const id = req.params._id;
+        const id = req.params._id as string;
         const user = await User.findOne({ _id: id });
         if (user) {
             res.status(200).json({
@@ -230,7 +233,7 @@ export const userGet = async (req: Request, res: Response): Promise<void> => {
 
 export const userUpdate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const id = req.params._id;
+        const id = req.params._id as string;
         // const userIdFromToken = (req.user as JwtPayload)?._id; // Assuming auth middleware adds req.user
         // if (!userIdFromToken || userIdFromToken !== id) {
         //    res.status(403).json({ Error: "Forbidden: You can only update your own profile." });
@@ -280,7 +283,7 @@ export const userUpdate = async (req: Request, res: Response): Promise<void> => 
 
 export const userDelete = async (req: Request, res: Response): Promise<void> => {
     try {
-        const id = req.params._id;
+        const id = req.params._id as string;
         // Add authorization if needed, e.g., only admin or user themselves can delete
         const user = await User.findByIdAndDelete(id); // Corrected: pass id directly
         if (user) {
