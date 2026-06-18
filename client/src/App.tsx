@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom"; // Removed BrowserRouter alias Router
 import React from 'react'
 import './App.css'
 import Home from "./pages/Home/Home";
@@ -15,14 +15,13 @@ import AdminCreateAdminPage from "./pages/Admin/Admins/AdminCreateAdminPage";
 import MyPropertiesPage from "./pages/Agent/MyPropertiesPage";
 import CreatePropertyPage from "./pages/Agent/CreatePropertyPage";
 import EditPropertyPage from "./pages/Agent/EditPropertyPage";
-import EditAgentProfilePage from "./pages/Agent/EditAgentProfilePage"; // Import EditAgentProfilePage
+import EditAgentProfilePage from "./pages/Agent/EditAgentProfilePage";
 import FavoritesPage from "./pages/Favorites/FavoritesPage";
 
 function App() {
-
   return (
    <React.Fragment>
-    <Router>
+      {/* <Router> is removed from here because it's now in main.tsx */}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home/>}/>
@@ -31,7 +30,7 @@ function App() {
         <Route path="/property/:propertyId" element={<PropertyDetailsPage />} />
 
         {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}> {/* General authenticated routes */}
+        <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
@@ -52,10 +51,7 @@ function App() {
           <Route path="/agent/properties/edit/:propertyId" element={<EditPropertyPage />} />
           <Route path="/agent/profile/edit" element={<EditAgentProfilePage />} />
         </Route>
-
-        {/* TODO: Add a 404 Not Found route */}
       </Routes>
-    </Router>
    </React.Fragment>
   )
 }
