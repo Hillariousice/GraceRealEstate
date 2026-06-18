@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '../../component/NavBar/NavBar';
 import Footer from '../../component/Footer/Footer';
-import { apiGet } from '../../utils/axios'; // Import apiGet named export
+import { apiGet, apiPost } from '../../utils/axios'; // Import apiGet named export
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useAuth } from '../../context/authContext';
 
 // Define a type for the property data, adjust as per actual data structure
 interface Property {
@@ -29,6 +31,14 @@ const PropertyDetailsPage: React.FC = () => {
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { user, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated && user && (user as any).favorites && propertyId) {
+      setIsFavorite((user as any).favorites.includes(propertyId));
+    }
+  }, [user, isAuthenticated, propertyId]);
 
   useEffect(() => {
     if (!propertyId) {
@@ -113,12 +123,54 @@ const PropertyDetailsPage: React.FC = () => {
     );
   }
 
+  const toggleFavorite = async () => {
+    if (!propertyId) return;
+    try {
+      const response = await apiPost({ path: `users/toggle-favorite/${propertyId}` });
+      if (response.status === 200) {
+        setIsFavorite(!isFavorite);
+      }
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (!propertyId) return;
+    try {
+      const response = await apiPost({ path: `users/checkout/${propertyId}` });
+      if (response.data && response.data.session && response.data.session.url) {
+        window.location.href = response.data.session.url;
+      }
+    } catch (err) {
+      console.error("Error initiating payment:", err);
+    }
+  };
+
   // Basic UI structure - to be expanded in step 4
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-800">{property.name}</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800">{property.name}</h1>
+          <button
+            onClick={toggleFavorite}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors"
+          >
+            {isFavorite ? (
+              <>
+                <AiFillHeart className="text-red-500 text-2xl" />
+                <span>Saved</span>
+              </>
+            ) : (
+              <>
+                <AiOutlineHeart className="text-gray-700 text-2xl" />
+                <span>Save</span>
+              </>
+            )}
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Image Section */}
@@ -134,7 +186,13 @@ const PropertyDetailsPage: React.FC = () => {
           <div className="md:col-span-1">
             <div className="bg-gray-100 p-6 rounded-lg shadow-md">
               <p className="text-3xl font-bold text-blue-600 mb-4">${property.price}</p>
-              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded mb-4 transition duration-150 ease-in-out">
+              <button
+                onClick={handleBuyNow}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded mb-4 transition duration-150 ease-in-out"
+              >
+                Buy Now
+              </button>
+              <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-4 rounded mb-4 transition duration-150 ease-in-out">
                 Request Info
               </button>
               {property.agentId && (

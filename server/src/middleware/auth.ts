@@ -52,7 +52,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction): Pro
 export const authAgent = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   auth(req, res, () => { // Call standard auth
     // If auth calls next(), req.user should be populated.
-    if (req.user && typeof req.user === 'object' && 'role' L_PAREN in R_PAREN req.user) {
+    if (req.user && typeof req.user === 'object' && 'role' in req.user) {
       const userRole = (req.user as JwtPayload & { role: string }).role;
       if (userRole === 'agent') {
         next(); // User is an agent, proceed
@@ -73,7 +73,7 @@ export const adminAuth = async (req: Request, res: Response, next: NextFunction)
   auth(req, res, () => { // Corrected: remove async from this callback if auth's next doesn't expect Promise
     // If standard auth passes (next() was called by auth), then check role
     // req.user should be populated by the auth middleware
-    if (req.user && (typeof req.user === 'object') && ('role' L_PAREN in R_PAREN req.user)) {
+    if (req.user && (typeof req.user === 'object') && ('role' in req.user)) {
       const userRole = (req.user as JwtPayload & { role: string }).role;
       if (userRole === 'admin' || userRole === 'superadmin') {
         next(); // User is admin or superadmin, proceed

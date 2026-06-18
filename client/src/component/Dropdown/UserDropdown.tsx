@@ -35,6 +35,9 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ isOpen, toggle }) => {
           <Link to="/profile" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
             My Profile
           </Link>
+          <Link to="/favorites" onClick={handleLinkClick} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+            Favorites
+          </Link>
 
           {/* Admin/Superadmin specific links */}
           {(user?.role === 'admin' || user?.role === 'superadmin') && (

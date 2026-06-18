@@ -107,6 +107,7 @@ const NavBar = () => {
             {isAuthenticated ? (
               <>
                 <Link to="/profile" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">My Profile</Link>
+                <Link to="/favorites" onClick={toggleMobileMenu} className="w-full py-2 px-2 hover:bg-gray-100 rounded">Favorites</Link>
 
                 {/* Admin/Superadmin specific links for mobile */}
                 {(useAuth().user?.role === 'admin' || useAuth().user?.role === 'superadmin') && (

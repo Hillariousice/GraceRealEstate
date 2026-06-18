@@ -16,6 +16,7 @@ import MyPropertiesPage from "./pages/Agent/MyPropertiesPage";
 import CreatePropertyPage from "./pages/Agent/CreatePropertyPage";
 import EditPropertyPage from "./pages/Agent/EditPropertyPage";
 import EditAgentProfilePage from "./pages/Agent/EditAgentProfilePage"; // Import EditAgentProfilePage
+import FavoritesPage from "./pages/Favorites/FavoritesPage";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
         <Route element={<ProtectedRoute />}> {/* General authenticated routes */}
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
         </Route>
 
         {/* Admin Protected Routes */}
