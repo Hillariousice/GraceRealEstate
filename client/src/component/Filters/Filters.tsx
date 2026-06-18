@@ -3,9 +3,14 @@ import { GiIsland, GiSandCastle, GiPalmTree, GiParkBench } from 'react-icons/gi'
 import { MdHouseboat } from 'react-icons/md'
 import { RiAliensFill } from 'react-icons/ri'
 import { BsSnow2 } from 'react-icons/bs'
-import Filter from './Filter' // Assuming Filter.tsx is already responsive internally
+import Filter from './Filter'
+import { useState } from 'react'
 
-const Filters = () => {
+const Filters = ({ onFilterChange, activeCategory }: any) => {
+  const [address, setAddress] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+
   const sorting = [
     { id: "boat", title: "Boat", icon: <MdHouseboat /> },
     { id: "beachfront", title: "Beachfront", icon: <TbBeach /> },
@@ -16,25 +21,60 @@ const Filters = () => {
     { id: "park", title: "Park", icon: <GiParkBench /> },
     { id: "omg", title: "OMG!", icon: <RiAliensFill /> },
     { id: "arctic", title: "Arctic", icon: <BsSnow2 /> }
-    // Add more filters here if needed to test wrapping thoroughly
   ];
 
+  const handleCategoryClick = (category: string) => {
+    onFilterChange({ category: activeCategory === category ? '' : category });
+  };
+
+  const handleSearch = () => {
+    onFilterChange({ address, minPrice, maxPrice });
+  };
+
   return (
-    <div className="py-4"> {/* Added padding to the container itself */}
-      <div className='flex flex-wrap justify-start items-center gap-2 sm:gap-3 mt-4 px-1 sm:px-3'> {/* Added flex-wrap, items-center, adjusted gap and padding */}
+    <div className="py-4">
+      <div className="flex flex-col md:flex-row gap-4 mb-4">
+        <input
+          type="text"
+          placeholder="Search by location..."
+          className="border p-2 rounded-md flex-grow"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <div className="flex gap-2">
+          <input
+            type="number"
+            placeholder="Min Price"
+            className="border p-2 rounded-md w-24"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            className="border p-2 rounded-md w-24"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      <div className='flex flex-wrap justify-start items-center gap-2 sm:gap-3 mt-4 px-1 sm:px-3'>
         {sorting.map((obj) => (
-          <Filter key={obj.id} title={obj.title} icon={obj.icon} /> // Added key prop
+          <Filter
+            key={obj.id}
+            title={obj.title}
+            icon={obj.icon}
+            isActive={activeCategory === obj.title}
+            onClick={() => handleCategoryClick(obj.title)}
+          />
         ))}
       </div>
-      {/*
-        Future enhancement idea (commented out):
-        A dedicated "Filters" button for mobile that opens a modal or drawer
-        could be an alternative to wrapping if the list of filters is very long.
-      */}
-      {/* <div className="flex lg:hidden items-center border px-4 py-2 rounded-full gap-2 bg-[#0c0606] text-white shadow-sm shadow-gray-100 hover:bg-gray-500 duration-100 ease-out mt-4">
-          <FiMenu className="text-[19px] "/> // FiMenu would need to be imported
-         <p>All Filters</p>
-      </div> */}
     </div>
   )
 }

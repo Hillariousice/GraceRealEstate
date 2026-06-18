@@ -15,7 +15,8 @@ export interface IUser{
     lat:number,
     verified:boolean,
     role:string,
-    coverImage:string
+    coverImage:string,
+    favorites: string[]
 }
 
 const userSchema = new Schema({
@@ -38,7 +39,8 @@ const userSchema = new Schema({
     lat:{type:Number},
     verified:{type:Boolean},
     role:{type:String},
-    coverImage:{type:String}
+    coverImage:{type:String},
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Property' }]
 
 },{
     timestamps:true

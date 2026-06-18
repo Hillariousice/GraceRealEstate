@@ -3,10 +3,96 @@ import { Request, Response } from 'express';
 // import { JwtPayload } from 'jsonwebtoken';
 import { GeneratePassword, GenerateSalt, generateToken, loginSchema, option, registerSchema, updateSchema } from '../utils/utils';
 import User from '../model/UserModel';
+import Property from '../model/PropertyModel';
 import bcrypt from 'bcryptjs';
+import { JwtPayload } from 'jsonwebtoken';
 
 
 
+
+export const getProperties = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { category, minPrice, maxPrice, address } = req.query;
+        let query: any = {};
+
+        if (category) {
+            query.category = category;
+        }
+
+        if (minPrice || maxPrice) {
+            query.price = {};
+            if (minPrice) query.price.$gte = Number(minPrice);
+            if (maxPrice) query.price.$lte = Number(maxPrice);
+        }
+
+        if (address) {
+            query.address = { $regex: address, $options: 'i' };
+        }
+
+        const properties = await Property.find(query);
+        res.status(200).json({
+            message: "Properties fetched successfully",
+            properties
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Internal Server Error',
+            Error: "/users/properties"
+        });
+    }
+}
+
+export const toggleFavorite = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = (req.user as JwtPayload)?._id;
+        const { propertyId } = req.params;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({ Error: "User not found" });
+            return;
+        }
+
+        const index = user.favorites.indexOf(propertyId);
+        if (index === -1) {
+            user.favorites.push(propertyId);
+        } else {
+            user.favorites.splice(index, 1);
+        }
+
+        await user.save();
+        res.status(200).json({
+            message: index === -1 ? "Property added to favorites" : "Property removed from favorites",
+            favorites: user.favorites
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Internal Server Error',
+            Error: "/users/toggle-favorite/:propertyId"
+        });
+    }
+}
+
+export const getFavorites = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = (req.user as JwtPayload)?._id;
+        const user = await User.findById(userId).populate('favorites');
+        if (!user) {
+            res.status(404).json({ Error: "User not found" });
+            return;
+        }
+
+        res.status(200).json({
+            message: "Favorites fetched successfully",
+            favorites: user.favorites
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Internal Server Error',
+            Error: "/users/favorites"
+        });
+    }
+}
 
 export const Register = async (req: Request, res: Response): Promise<void> => {
     try {
