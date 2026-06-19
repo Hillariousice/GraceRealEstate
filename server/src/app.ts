@@ -7,6 +7,7 @@ import {connectDB} from './config/db'
 import UserRoutes from './routes/User'
 import AdminRoutes from './routes/Admin'
 import AgentRoutes from './routes/Agent'
+import cors from 'cors';
 
 
 const app = express()
@@ -26,6 +27,10 @@ app.use(express.static(path.join(process.cwd(),'./public')))
 app.use('/users',UserRoutes)
 app.use('/admins',AdminRoutes)
 app.use('/agents',AgentRoutes)
+app.use(cors({
+    origin: ['https://grace-real-estate.vercel.app', 'http://localhost:5173'], // Allow your Vercel frontend and local development
+    credentials: true // Crucial if you are using cookies for tokens
+}));
 
 
 app.listen(process.env.PORT,()=>{console.log(`app running on ${process.env.PORT}`)})
